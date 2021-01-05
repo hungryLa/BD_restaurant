@@ -32,6 +32,13 @@
                 <input type = 'hidden' name = 'type_query3' value = '2'>
             </tr>
             <tr>
+            <tr>
+                <td><input type = "radio" name = 'rad' value = '4'></td>
+                <td>4.Вывести блюда , где используется строка</td>
+                <td><input type = text name = 'value4' value = ''></td>
+                <input type = 'hidden' name = 'query4' value = 'SELECT * FROM `dishes` WHERE `Name` LIKE '>
+                <input type = 'hidden' name = 'type_query4' value = '3'>
+            </tr>
                 
             </tr>
         </table>
@@ -54,10 +61,13 @@
         if ($_POST['rad'] && ($_POST['do'])){
             
             if($_POST['type_query'.$_POST['rad']] > 0) $query = $_POST['query'.$_POST['rad']];
-            if($_POST['type_query'.$_POST['rad']] > 1) $query = $query."'".$_POST['value'.$_POST['rad']]."'"; 
+            if($_POST['type_query'.$_POST['rad']] == 2) $query = $query."'".$_POST['value'.$_POST['rad']]."'";
+            if($_POST['type_query'.$_POST['rad']] == 3) $query = $query."'".$_POST['value'.$_POST['rad']]."%'";
 
             echo "</br>";
             var_dump($query);
+
+
             $dish = mysqli_query($link,$query) or die("Ошибка " . mysqli_error($link));
             $dish = mysqli_fetch_all($dish);
             
