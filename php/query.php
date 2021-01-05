@@ -37,7 +37,14 @@
                 <td>4.Вывести блюда , где используется строка</td>
                 <td><input type = text name = 'value4' value = ''></td>
                 <input type = 'hidden' name = 'query4' value = 'SELECT * FROM `dishes` WHERE `Name` LIKE '>
-                <input type = 'hidden' name = 'type_query4' value = '3'>
+                <input type = 'hidden' name = 'type_query4' value = '4'>
+            </tr>
+            <tr>
+                <td><input type = "radio" name = 'rad' value = '5'></td>
+                <td>5.Вывести ингредиенты по Id</td>
+                <td><input type = text name = 'value5' value = ''></td>
+                <input type = 'hidden' name = 'query5' value = 'SELECT dishes.Name, ingredients.Name FROM dishes,ingredient_dish, ingredients where '>
+                <input type = 'hidden' name = 'type_query5' value = '5'>
             </tr>
                 
             </tr>
@@ -62,7 +69,8 @@
             
             if($_POST['type_query'.$_POST['rad']] > 0) $query = $_POST['query'.$_POST['rad']];
             if($_POST['type_query'.$_POST['rad']] == 2) $query = $query."'".$_POST['value'.$_POST['rad']]."'";
-            if($_POST['type_query'.$_POST['rad']] == 3) $query = $query."'".$_POST['value'.$_POST['rad']]."%'";
+            if($_POST['type_query'.$_POST['rad']] == 4) $query = $query."'".$_POST['value'.$_POST['rad']]."%'";
+            if($_POST['type_query'.$_POST['rad']] == 5) $query = $query."( dishes.IdDish = ".$_POST['value'.$_POST['rad']].")&&(dishes.IdDish = ingredient_dish.IdDish) && (ingredient_dish.IdIngredient = ingredients.IdIngredient)";
 
             echo "</br>";
             var_dump($query);
@@ -70,17 +78,17 @@
 
             $dish = mysqli_query($link,$query) or die("Ошибка " . mysqli_error($link));
             $dish = mysqli_fetch_all($dish);
-            
+
             foreach ($dish as $dish) {
             ?>
             
                 <tr>
-                    <td><?= $dish[0] ?></td>
-                    <td><?= $dish[1] ?></td>
-                    <td><?= $dish[2] ?> грамм</td>
-                    <td><?= $dish[3] ?> рублей</td>
-                    <td><?= $dish[4] ?> минут</td>
-                    <td><?= $dish[5] ?></td>
+                <?php
+                    for ($i = 0; $i < count($dish);$i++)
+                    {
+                        echo "<td>".$dish[$i]."</td>"; 
+                    }
+                ?>
                 </tr>
             
             <?php
