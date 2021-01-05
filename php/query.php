@@ -37,14 +37,14 @@
                 <td>4.Вывести блюда , где используется строка</td>
                 <td><input type = text name = 'value4' value = ''></td>
                 <input type = 'hidden' name = 'query4' value = 'SELECT * FROM `dishes` WHERE `Name` LIKE '>
-                <input type = 'hidden' name = 'type_query4' value = '4'>
+                <input type = 'hidden' name = 'type_query4' value = '3'>
             </tr>
             <tr>
                 <td><input type = "radio" name = 'rad' value = '5'></td>
                 <td>5.Вывести ингредиенты по Id</td>
                 <td><input type = text name = 'value5' value = ''></td>
-                <input type = 'hidden' name = 'query5' value = 'SELECT dishes.Name, ingredients.Name FROM dishes,ingredient_dish, ingredients where '>
-                <input type = 'hidden' name = 'type_query5' value = '5'>
+                <input type = 'hidden' name = 'query5' value = 'SELECT ingredients.Name FROM dishes,ingredient_dish, ingredients where '>
+                <input type = 'hidden' name = 'type_query5' value = '4'>
             </tr>
                 
             </tr>
@@ -53,47 +53,73 @@
         <a style = "float :right" href = "../index.php">Назад</a>
     </form>
     <table style = " td : width : 20%"> 
-    <tr>
-        <th>Id</th>
-        <th>Название</th>
-        <th>Вес</th>
-        <th>Цена</th>
-        <th>Время готовки</th>
-        <th>Тип блюда</th>
-    </tr>  
+
     <?php
         require_once('../config.php');
-        var_dump($_POST);
-        echo "</br>";
         if ($_POST['rad'] && ($_POST['do'])){
             
-            if($_POST['type_query'.$_POST['rad']] > 0) $query = $_POST['query'.$_POST['rad']];
-            if($_POST['type_query'.$_POST['rad']] == 2) $query = $query."'".$_POST['value'.$_POST['rad']]."'";
-            if($_POST['type_query'.$_POST['rad']] == 4) $query = $query."'".$_POST['value'.$_POST['rad']]."%'";
-            if($_POST['type_query'.$_POST['rad']] == 5) $query = $query."( dishes.IdDish = ".$_POST['value'.$_POST['rad']].")&&(dishes.IdDish = ingredient_dish.IdDish) && (ingredient_dish.IdIngredient = ingredients.IdIngredient)";
+            if($_POST['type_query'.$_POST['rad']] == 1){
+                rows1();
+                $query = $_POST['query'.$_POST['rad']];
+            }
+            if($_POST['type_query'.$_POST['rad']] == 2){
+                rows1();
+                $query = $_POST['query'.$_POST['rad']];
+                $query = $query."'".$_POST['value'.$_POST['rad']]."'";
+            }
+            if($_POST['type_query'.$_POST['rad']] == 3){
+                rows1();
+                $query = $_POST['query'.$_POST['rad']];
+                $query = $query."'%".$_POST['value'.$_POST['rad']]."%'";
+            } 
+            if($_POST['type_query'.$_POST['rad']] == 4){
+                rows2();
+                $query = $_POST['query'.$_POST['rad']];
+                $query = $query."( dishes.IdDish = ".$_POST['value'.$_POST['rad']].")&&(dishes.IdDish = ingredient_dish.IdDish) && (ingredient_dish.IdIngredient = ingredients.IdIngredient)";
+            }
 
-            echo "</br>";
-            var_dump($query);
+            //echo "</br>";
+            //var_dump($query);
 
 
             $dish = mysqli_query($link,$query) or die("Ошибка " . mysqli_error($link));
             $dish = mysqli_fetch_all($dish);
 
             foreach ($dish as $dish) {
-            ?>
-            
-                <tr>
-                <?php
-                    for ($i = 0; $i < count($dish);$i++)
-                    {
-                        echo "<td>".$dish[$i]."</td>"; 
-                    }
-                ?>
-                </tr>
-            
-            <?php
+                echo "<tr>";
+                for ($i = 0; $i < count($dish);$i++)
+                {
+                    echo "<td>".$dish[$i]."</td>"; 
+                }
+                echo "</tr>";
             } 
         }
     ?>
     </table>
 </body>
+
+<?php
+    function rows1(){
+        echo "
+        <pre>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Вес(Грамм)</th>
+            <th>Цена(Руб.)</th>
+            <th>Время готовки(мин.)</th>
+            <th>Тип блюда</th>
+        </tr>
+        </pre>";
+        
+    }
+    function rows2(){
+        echo "
+        <pre>
+        <tr>
+            <th>Ингредиенты</th>
+        </tr>
+        </pre>";
+        
+    }
+?>
