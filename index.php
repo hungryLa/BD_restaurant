@@ -17,9 +17,9 @@
         <form class = "form" action = "php/create.php" method = "post">
             <h4 style = "text-align: center; margin : 0">Добавить</h4>
             <p>Название : <input type ="text" name = "Name"></p>
-            <p>Вес : <input type ="text" name = "Weight"></p>
-            <p>Цена: <input type ="text" name = "Price"></p>
-            <p>Время готовки: <input type ="text" name = "CookingTime"></p>
+            <p>Вес (грамм) : <input type ="text" name = "Weight"></p>
+            <p>Цена (рублей) : <input type ="text" name = "Price"></p>
+            <p>Время готовки (минут) : <input type ="text" name = "CookingTime"></p>
             <p>Тип блюда:<select name = "Type" style = "float : right">
                 <option>Первое</option>
                 <option>Салат</option>
@@ -37,24 +37,22 @@
         <table>
             <tr>
                 <th></th>
-                <th>Id</th>
                 <th>Название</th>
-                <th>Вес</th>
-                <th>Цена</th>
-                <th>Время готовки</th>
+                <th>Вес(грамм)</th>
+                <th>Цена(рублей)</th>
+                <th>Время готовки(минут)</th>
                 <th>Тип блюда</th>
                 <th style ="width = 5%;"></th>
             </tr>
         <?php
         require_once('config.php'); 
-        $query = "SELECT * FROM dishes";
+        $query = "SELECT * FROM `dishes` ORDER BY dishes.Type, dishes.Name";
         $dish = mysqli_query($link,$query) or die("Ошибка " . mysqli_error($link));
         $dish = mysqli_fetch_all($dish);
             foreach ($dish as $dish) {
                 ?>
                 <tr>
                     <td><a style ="color : rgba(0, 87, 158, 0.945)" href = "update.php?id=<?=$dish[0]?>">Изменить</a></td>
-                    <td><?= $dish[0] ?></td>
                     <td><?= $dish[1] ?></td>
                     <td><?= $dish[2] ?> грамм</td>
                     <td><?= $dish[3] ?> рублей</td>

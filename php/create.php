@@ -10,6 +10,7 @@
     $Type = $_POST['Type'];
 
 
-    $link->query("INSERT INTO `dishes` (`IdDish`,`Name`, `Weight`, `Price`, `CookingTime`,`Type`) VALUES (NULL,'$Name', '$Weight', '$Price', '$CookingTime', '$Type')");
+    $link->query("INSERT INTO `dishes` (`IdDish`,`Name`, `Weight`, `Price`, `CookingTime`,`Type`)
+        VALUES (NULL,'$Name', '$Weight', '$Price', '$CookingTime', '$Type')");
 
     

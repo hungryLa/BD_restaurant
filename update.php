@@ -3,7 +3,8 @@
     $IdDish = $_GET['id'];
     $dish = mysqli_query($link, "SELECT * FROM `dishes` WHERE `IdDish` = '$IdDish'");
     $dish = mysqli_fetch_assoc($dish);
-    //print_r($dish);
+    print_r($dish);
+    $type = ['Первое','Салат','Второе','Десерт'];
 ?>
 <!DOCTYPE html>
 <html lang = "ru">
@@ -22,10 +23,11 @@
             <p>Цена: <input type ="text" name = "Price" value = "<?= $dish['Price'] ?>"></p>
             <p>Время готовки: <input type ="text" name = "CookingTime" value = "<?= $dish['CookingTime'] ?>"></p>
             <p>Тип блюда:<select name = "Type" style = "float : right">
-                <option>Первое</option>
-                <option>Салат</option>
-                <option>Второе</option>
-                <option>Десерт</option>
+                <?php
+                    $size = count($type);
+                    for ($i = 0 ; $i < $size; $i++)
+                        echo "<option ".(($type[$i] == $dish[Type]) ? 'selected = selected>' : '>').$type[$i]."</option>"; 
+                ?>
             </select></p>
             <button type = "submit" style = "margin-left: 40%">Применить</button>
         </form>

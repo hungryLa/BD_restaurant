@@ -9,4 +9,9 @@ $Price = $_POST['Price'];
 $CookingTime = $_POST['CookingTime'];
 $Type = $_POST['Type'];
 
-mysqli_query($link,"UPDATE `dishes` SET `Name` = '$Name', `Weight` = '$Weight', `Price` = '$Price',`CookingTime` = '$CookingTime',`Type` = '$Type' WHERE `dishes`.`IdDish` = '$IdDish'");
+mysqli_query($link,"UPDATE `dishes` SET `Name` = '$Name',
+    `Weight` = '$Weight',
+    `Price` = '$Price',
+    `CookingTime` = '$CookingTime',
+    `Type` = '$Type' 
+WHERE `dishes`.`IdDish` = '$IdDish'");
